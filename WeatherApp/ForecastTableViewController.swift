@@ -8,8 +8,9 @@
 
 import UIKit
 
-var dataContainer: Json4Swift_Base? = nil;
 class ForecastViewController: UITableViewController {
+    @IBOutlet var cellContainerTableView: UITableView!
+    var dataContainer: Json4Swift_Base? = nil;
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -18,10 +19,10 @@ class ForecastViewController: UITableViewController {
             
             do {
                 let jsonDecoder = JSONDecoder()
-                dataContainer = try jsonDecoder.decode(Json4Swift_Base.self, from: data!)
+                self.dataContainer = try jsonDecoder.decode(Json4Swift_Base.self, from: data!)
                 DispatchQueue.main.async {
-                    self.view.reloadInputViews()
-                    self.title = dataContainer?.headline?.text
+                    self.cellContainerTableView.reloadData()
+                    self.title = self.dataContainer?.headline?.text
                 }
             }
             catch let parseError as NSError {
